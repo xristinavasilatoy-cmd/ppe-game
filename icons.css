@@ -28,3 +28,10 @@
       font-size: 16px;
       cursor: pointer;
     }
+
+    #game {
+  touch-action: none;
+  user-select: none;
+  max-width: 100%;
+  height: auto;
+}

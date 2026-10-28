@@ -153,3 +153,60 @@ document.getElementById("restart").addEventListener("click", () => {
   newEquipment();
   draw();
 });
+
+// Κρατάμε ποιο δάχτυλο χειρίζεται το παιχνίδι.
+let activePointer = null;
+
+// Μετακινούμε το αντικείμενο στον πλησιέστερο εργάτη.
+function moveWithTouch(event) {
+  if (gameOver || equipment.y >= 370) return;
+
+  const bounds = canvas.getBoundingClientRect();
+
+  // Μετατρέπουμε τη θέση στην οθόνη σε θέση του καμβά.
+  const x =
+    (event.clientX - bounds.left) *
+    (canvas.width / bounds.width);
+
+  let nearestWorker = workers[0];
+
+  for (const worker of workers) {
+    if (
+      Math.abs(worker.x - x) <
+      Math.abs(nearestWorker.x - x)
+    ) {
+      nearestWorker = worker;
+    }
+  }
+
+  equipment.x = nearestWorker.x;
+  draw();
+}
+
+// Όταν ακουμπάμε τον πίνακα.
+canvas.addEventListener("pointerdown", event => {
+  if (activePointer !== null || event.button !== 0) return;
+  if (gameOver) return;
+
+  activePointer = event.pointerId;
+  canvas.setPointerCapture(event.pointerId);
+  moveWithTouch(event);
+});
+
+// Όταν σύρουμε το δάχτυλο.
+canvas.addEventListener("pointermove", event => {
+  if (event.pointerId !== activePointer) return;
+
+  moveWithTouch(event);
+});
+
+// Όταν σηκώνουμε το δάχτυλο ή διακόπτεται η επαφή.
+function stopTouch(event) {
+  if (event.pointerId === activePointer) {
+    activePointer = null;
+  }
+}
+
+canvas.addEventListener("pointerup", stopTouch);
+canvas.addEventListener("pointercancel", stopTouch);
+canvas.addEventListener("lostpointercapture", stopTouch);
