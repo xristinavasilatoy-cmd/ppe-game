@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width , initial-scale=1.0">
+    <title>PPE game</title>
+</head>
+
+<link rel="stylesheet" href="icons.css">
+
+<body>
+    
+  <h1>Arm the workers!</h1>
+  <p>Points: <span id="score">0</span></p>
+
+  <canvas id="game" width="240" height="480"
+          aria-label="Πίνακας παιχνιδιού με κομμάτια που πέφτουν">
+  </canvas>
+
+  <!-- <p>← → Μετακίνηση · ↑ Περιστροφή · ↓ Πτώση</p> -->
+  <p id="message" aria-live="polite">Every worker asks for his equipment!</p>
+  <button id="restart">New game</button>
+  <script src="game.js"></script>
+</body>
+</html>
